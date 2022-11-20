@@ -67,6 +67,7 @@ struct strConfig {
   byte    ip[4];
   byte    netmask[4];
   byte    gateway[4];
+  byte    dns[4];
   boolean dhcp;
   byte    mqtt_broker_addr[4];
   String  mqtt_broker_port;
@@ -148,7 +149,7 @@ void ConfigureWifi()
   WiFi.begin (config.ssid.c_str(), config.password.c_str());
   if (!config.dhcp)
   {
-    WiFi.config(IPAddress(config.ip[0], config.ip[1], config.ip[2], config.ip[3] ),  IPAddress(config.gateway[0], config.gateway[1], config.gateway[2], config.gateway[3] ) , IPAddress(config.netmask[0], config.netmask[1], config.netmask[2], config.netmask[3] ));
+    WiFi.config(IPAddress(config.ip[0], config.ip[1], config.ip[2], config.ip[3]), IPAddress(config.dns[0], config.dns[1], config.dns[2], config.dns[3]), IPAddress(config.gateway[0], config.gateway[1], config.gateway[2], config.gateway[3]), IPAddress(config.netmask[0], config.netmask[1], config.netmask[2], config.netmask[3]));
   }
   wifi_disconnect_log = true;
 } // void ConfigureWifi
@@ -185,7 +186,12 @@ void WriteConfig()
   EEPROM.write(157, config.mqtt_broker_addr[1]);
   EEPROM.write(158, config.mqtt_broker_addr[2]);
   EEPROM.write(159, config.mqtt_broker_addr[3]);
-
+  
+  EEPROM.write(160, config.dns[0]);
+  EEPROM.write(161, config.dns[1]);
+  EEPROM.write(162, config.dns[2]);
+  EEPROM.write(163, config.dns[3]);
+  
   WriteStringToEEPROM(164, config.ssid);
   WriteStringToEEPROM(196, config.password);
 
@@ -265,7 +271,11 @@ boolean ReadConfig()
     config.mqtt_broker_addr[1] = EEPROM.read(157);
     config.mqtt_broker_addr[2] = EEPROM.read(158);
     config.mqtt_broker_addr[3] = EEPROM.read(159);
-
+    config.dns[0] = EEPROM.read(160);
+    config.dns[1] = EEPROM.read(161);
+    config.dns[2] = EEPROM.read(162);
+    config.dns[3] = EEPROM.read(163);
+    
     config.ssid = ReadStringFromEEPROM(164, 32);
     config.password = ReadStringFromEEPROM(196, 64);
     config.mqtt_broker_port = ReadStringFromEEPROM(262, 6);
@@ -362,6 +372,7 @@ void InitializeConfigData()
     config.netmask[0] = 255; config.netmask[1] = 255; config.netmask[2] = 255; config.netmask[3] = 0;
     config.gateway[0] = 192; config.gateway[1] = 168; config.gateway[2] = 1; config.gateway[3] = 1;
     config.mqtt_broker_addr[0] = 0; config.mqtt_broker_addr[1] = 0; config.mqtt_broker_addr[2] = 0; config.mqtt_broker_addr[3] = 0;
+    config.dns[0] = 1; config.dns[1] = 1; config.dns[2] = 1; config.dns[3] = 1;
     config.mqtt_broker_port = "1883";
     config.mqtt_broker_client_id = "JaroliftDongle";
     config.mqtt_broker_client_id += chipIdString;

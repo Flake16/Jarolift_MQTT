@@ -66,6 +66,11 @@ void html_api() {
       if (server.argName(i) == "mqtt_broker_addr_2") if (checkRange(server.arg(i)))   config.mqtt_broker_addr[2] =  server.arg(i).toInt();
       if (server.argName(i) == "mqtt_broker_addr_3") if (checkRange(server.arg(i)))   config.mqtt_broker_addr[3] =  server.arg(i).toInt();
 
+      if (server.argName(i) == "dns_0") if (checkRange(server.arg(i)))   config.dns[0] =  server.arg(i).toInt();
+      if (server.argName(i) == "dns_1") if (checkRange(server.arg(i)))   config.dns[1] =  server.arg(i).toInt();
+      if (server.argName(i) == "dns_2") if (checkRange(server.arg(i)))   config.dns[2] =  server.arg(i).toInt();
+      if (server.argName(i) == "dns_3") if (checkRange(server.arg(i)))   config.dns[3] =  server.arg(i).toInt();
+      
       if (server.argName(i) == "dhcp")
         config.dhcp = (urldecode(server.arg(i)) == "true");
       if (server.argName(i) == "learn_mode")
@@ -149,6 +154,10 @@ void html_api() {
         values += "mqtt_broker_addr_1=" + (String) config.mqtt_broker_addr[1] + "\n";
         values += "mqtt_broker_addr_2=" + (String) config.mqtt_broker_addr[2] + "\n";
         values += "mqtt_broker_addr_3=" + (String) config.mqtt_broker_addr[3] + "\n";
+        values += "dns_0=" + (String) config.dns[0] + "\n";
+        values += "dns_1=" + (String) config.dns[1] + "\n";
+        values += "dns_2=" + (String) config.dns[2] + "\n";
+        values += "dns_3=" + (String) config.dns[3] + "\n";
         values += "mqtt_broker_port=" + config.mqtt_broker_port + "\n";
         values += "mqtt_broker_username=" + config.mqtt_broker_username + "\n";
         values += "mqtt_broker_password=" + config.mqtt_broker_password + "\n";
